@@ -51,7 +51,7 @@ export default function Auth() {
     if (error) {
       toast({
         title: 'Error signing up',
-        description: error.message,
+        description: error,
         variant: 'destructive',
       });
     } else {
