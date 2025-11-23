@@ -17,6 +17,7 @@ import Config from "./pages/Config";
 import Integrations from "./pages/Integrations";
 import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
+import ChatBox from "@/components/ChatBox";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
                 </main>
               </div>
             </div>
+            <ChatBox />
             <CommandPalette />
           </SidebarProvider>
         </BrowserRouter>
