@@ -16,21 +16,9 @@ const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hey! How are you?",
+      text: "Hi I am Watsonx Resilience Co-Pilot? What systems do you want to monitor today?",
       sender: "other",
       timestamp: new Date(Date.now() - 3600000),
-    },
-    {
-      id: "2",
-      text: "I'm doing great! Just working on this cool chat interface.",
-      sender: "user",
-      timestamp: new Date(Date.now() - 3300000),
-    },
-    {
-      id: "3",
-      text: "That sounds exciting! What features are you adding?",
-      sender: "other",
-      timestamp: new Date(Date.now() - 3000000),
     },
   ]);
   const [inputValue, setInputValue] = useState("");
