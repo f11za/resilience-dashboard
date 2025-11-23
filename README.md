@@ -1,1 +1,3 @@
-https://id-preview--7d4e3b14-2910-4610-a50b-3466daabb275.lovable.app/incidents
+Link to website incase other not working properly
+
+https://sra-858141841630.us-central1.run.app/
