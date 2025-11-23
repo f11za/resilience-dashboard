@@ -1,6 +1,43 @@
 // API utility with graceful fallback to demo data
 
-const API_BASE = '/api';
+const API_BASE = 'http://localhost:8000'; // your FastAPI URL
+
+interface LoginResponse {
+  access_token: string;
+  user: { id: string; email: string };
+}
+
+interface LoginFallback {
+  access_token: string;
+  user: { id: string; email: string };
+}
+
+export async function loginApi(
+  email: string,
+  password: string,
+  fallback?: LoginFallback
+): Promise<LoginResponse> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      console.warn('Login failed, using fallback');
+      if (fallback) return fallback;
+      throw new Error('Login failed');
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.warn('Login API error', error);
+    if (fallback) return fallback;
+    throw error;
+  }
+}
+
 
 export async function fetchWithFallback<T>(
   endpoint: string,

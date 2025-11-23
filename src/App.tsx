@@ -5,9 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { AppSidebar } from "@/components/AppSidebar";
+import { useAuth } from "@/contexts/AuthContext";
 import { TopBar } from "@/components/TopBar";
 import { CommandPalette } from "@/components/CommandPalette";
+import ChatBox from "@/components/ChatBox";
+
 import Incidents from "./pages/Incidents";
 import IncidentDetail from "./pages/IncidentDetail";
 import Analytics from "./pages/Analytics";
@@ -17,17 +21,22 @@ import Config from "./pages/Config";
 import Integrations from "./pages/Integrations";
 import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
-import ChatBox from "@/components/ChatBox";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
+const HomeRedirect = () => {
+  const { user } = useAuth();
+  return <Navigate to={user ? "/incidents" : "/login"} replace />;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+  <BrowserRouter>
+    <AuthProvider>
+      <ThemeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
           <SidebarProvider defaultOpen>
             <div className="min-h-screen flex w-full">
               <AppSidebar />
@@ -35,7 +44,8 @@ const App = () => (
                 <TopBar />
                 <main className="flex-1 p-6 overflow-auto">
                   <Routes>
-                    <Route path="/" element={<Navigate to="/incidents" replace />} />
+                    <Route path="/" element={<HomeRedirect />} />
+                    <Route path="/login" element={<Auth />} />
                     <Route path="/incidents" element={<Incidents />} />
                     <Route path="/incidents/:id" element={<IncidentDetail />} />
                     <Route path="/analytics" element={<Analytics />} />
@@ -52,10 +62,11 @@ const App = () => (
             <ChatBox />
             <CommandPalette />
           </SidebarProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </AuthProvider>
+  </BrowserRouter>
+</QueryClientProvider>
 );
 
 export default App;
